@@ -323,7 +323,7 @@ class App(ctk.CTk):
             justify="left",
         )
         self.label_space = ctk.CTkLabel(
-            card, text="O(log n)",
+            card, text="Best: O(log n)\nAverage: O(log n)\nWorst: O(n)",
             font=FONT_BODY,
             text_color=TEXT_PRIMARY,
             justify="left",
