@@ -343,7 +343,7 @@ class App(ctk.CTk):
         self.orig_title = ctk.CTkLabel(
             container, text="Original Data (0 records)", font=FONT_H2, text_color=TEXT_PRIMARY, justify="left"
         )
-        self.orig_title.grid(row=0, column=0, sticky="w", pady=(0, 8), padx=P)
+        self.orig_title.grid(row=0, column=0, sticky="ew", pady=(0, 8), padx=P)
 
         self.orig_card = ctk.CTkFrame(container, fg_color=CARD_BG, corner_radius=16)
         self.orig_card.grid(row=1, column=0, sticky="nsew", padx=P)
@@ -357,7 +357,7 @@ class App(ctk.CTk):
         self.sorted_title = ctk.CTkLabel(
             container, text="Sorted Data", font=FONT_H2, text_color=TEXT_PRIMARY, justify="left"
         )
-        self.sorted_title.grid(row=2, column=0, sticky="w", pady=(P, 8), padx=P)
+        self.sorted_title.grid(row=2, column=0, sticky="ew", pady=(P, 8), padx=P)
 
         self.sorted_card = ctk.CTkFrame(container, fg_color=CARD_BG, corner_radius=16)
         self.sorted_card.grid(row=3, column=0, sticky="nsew", padx=P)
@@ -412,7 +412,7 @@ class App(ctk.CTk):
             text_color=TEXT_SECONDARY,
             justify="left",
         )
-        label.grid(row=0, column=0, columnspan=6, padx=8, pady=8, sticky="w")
+        label.grid(row=0, column=0, columnspan=6, padx=8, pady=8, sticky="ew")
 
         if show_action_blank:
             ctk.CTkLabel(row, text="", font=FONT_BODY, text_color=TEXT_SECONDARY, justify="left").grid(
