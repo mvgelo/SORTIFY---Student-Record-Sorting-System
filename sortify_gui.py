@@ -194,7 +194,7 @@ class App(ctk.CTk):
 
         btn_add = ctk.CTkButton(
             btn_frame,
-            text="Add Student",
+            text="✚  Add Student",
             fg_color=PRIMARY_BTN,
             hover_color=PRIMARY_HOVER,
             text_color="white",
@@ -206,7 +206,7 @@ class App(ctk.CTk):
         )
         btn_clear = ctk.CTkButton(
             btn_frame,
-            text="Clear Form",
+            text="🗑  Clear Form",
             fg_color=NEUTRAL_BTN,
             hover_color=NEUTRAL_HOVER,
             text_color=TEXT_PRIMARY,
@@ -255,7 +255,7 @@ class App(ctk.CTk):
         # Row 3 buttons
         btn_run = ctk.CTkButton(
             card,
-            text="▶  Run Sort",
+            text="▶︎  Run Sort",
             fg_color=PRIMARY_BTN,
             hover_color=PRIMARY_HOVER,
             text_color="white",
@@ -267,7 +267,7 @@ class App(ctk.CTk):
         )
         btn_clear = ctk.CTkButton(
             card,
-            text="⨂  Clear All Data",
+            text="🗑  Clear All Data",
             fg_color=NEUTRAL_BTN,
             hover_color=NEUTRAL_HOVER,
             text_color=TEXT_PRIMARY,
