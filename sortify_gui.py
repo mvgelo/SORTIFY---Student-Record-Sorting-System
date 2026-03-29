@@ -39,7 +39,6 @@ class App(ctk.CTk):
         super().__init__()
         self.title("SORTIFY")
         self.geometry("1400x900")
-        self.minsize(1100, 720)
         self.configure(fg_color=BG_MAIN)
 
         self.columnconfigure(0, weight=1)
@@ -132,7 +131,7 @@ class App(ctk.CTk):
         )
         subtitle.grid(row=1, column=0, sticky="w", pady=(8, 0))
 
-    # ---------- add student card (2-column, 3 rows of inputs + buttons) ----------
+    # ---------- ADD STUDENT ----------
     def _build_add_student_card(self, parent):
         card = ctk.CTkFrame(parent, fg_color=CARD_BG, corner_radius=16)
         card.grid(row=1, column=0, sticky="ew", pady=(P, 0))
@@ -220,7 +219,7 @@ class App(ctk.CTk):
         btn_add.grid(row=0, column=0, sticky="ew", padx=(0, 25))
         btn_clear.grid(row=0, column=1, sticky="ew", padx=(25, 0))
 
-    # ---------- control panel ----------
+    # ---------- CONTROL PANEL ----------
     def _build_control_panel(self, parent):
         card = ctk.CTkFrame(parent, fg_color=CARD_BG, corner_radius=16)
         card.grid(row=2, column=0, sticky="ew", pady=(P, 0))
@@ -245,7 +244,7 @@ class App(ctk.CTk):
         self.combo_algo.set("Quick Sort")
 
         self.combo_sort_by = ctk.CTkComboBox(
-            card, values=["Name", "Student ID", "Age", "GWA"], font=FONT_BODY, height=44, state="normal"
+            card, values=["Name", "Student ID", "Age", "GWA", "Enrollment Year"], font=FONT_BODY, height=44, state="normal"
         )
         self.combo_sort_by.set("Name")
 
