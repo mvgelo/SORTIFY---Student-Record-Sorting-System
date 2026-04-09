@@ -1,7 +1,7 @@
 import customtkinter as ctk
 import tkinter as tk
 
-# ---------------- THEME ----------------
+#  THEME 
 
 ctk.set_appearance_mode("light")
 ctk.set_default_color_theme("blue")
@@ -46,11 +46,10 @@ class App(ctk.CTk):
 
         self._build_scroll_container()
 
-        # build UI
         self._build_page()
         self._build_content(self.page)
 
-    # ---------- scrollable root ----------
+    #  Scrollable Container 
     def _build_scroll_container(self):
         container = ctk.CTkFrame(self, fg_color=BG_MAIN)
         container.grid(row=0, column=0, sticky="nsew")
@@ -66,7 +65,6 @@ class App(ctk.CTk):
 
         self.page = ctk.CTkFrame(self.canvas, fg_color=BG_MAIN)
 
-        # keep page width synced to canvas width
         self.page_window = self.canvas.create_window((0, 0), window=self.page, anchor="nw", width=1)
 
         self.page.bind(
@@ -83,9 +81,8 @@ class App(ctk.CTk):
     def _on_mousewheel(self, event):
         self.canvas.yview_scroll(-int(event.delta / 120), "units")
 
-    # ---------- page layout ----------
+    #  Page Layout 
     def _build_page(self):
-        # centered middle column
         self.page.columnconfigure(0, weight=1)
         self.page.columnconfigure(1, weight=8)
         self.page.columnconfigure(2, weight=1)
@@ -94,7 +91,6 @@ class App(ctk.CTk):
         content = ctk.CTkFrame(root, fg_color=BG_MAIN)
         content.grid(row=0, column=1, sticky="nsew", padx=P, pady=P)
 
-        # allow vertical expansion
         content.rowconfigure(0, weight=0)
         content.rowconfigure(1, weight=0)
         content.rowconfigure(2, weight=0)
@@ -108,7 +104,7 @@ class App(ctk.CTk):
         self._build_algo_info_card(content)
         self._build_data_sections(content)
 
-    # ---------- header ----------
+    #  Header 
     def _build_header(self, parent):
         frame = ctk.CTkFrame(parent, fg_color=BG_MAIN)
         frame.grid(row=0, column=0, sticky="ew")
@@ -131,7 +127,7 @@ class App(ctk.CTk):
         )
         subtitle.grid(row=1, column=0, sticky="w", pady=(8, 0))
 
-    # ---------- ADD STUDENT ----------
+    #  ADD STUDENT 
     def _build_add_student_card(self, parent):
         card = ctk.CTkFrame(parent, fg_color=CARD_BG, corner_radius=16)
         card.grid(row=1, column=0, sticky="ew", pady=(P, 0))
@@ -219,7 +215,7 @@ class App(ctk.CTk):
         btn_add.grid(row=0, column=0, sticky="ew", padx=(0, 25))
         btn_clear.grid(row=0, column=1, sticky="ew", padx=(25, 0))
 
-    # ---------- CONTROL PANEL ----------
+    #  CONTROL PANEL 
     def _build_control_panel(self, parent):
         card = ctk.CTkFrame(parent, fg_color=CARD_BG, corner_radius=16)
         card.grid(row=2, column=0, sticky="ew", pady=(P, 0))
@@ -237,7 +233,7 @@ class App(ctk.CTk):
             row=1, column=1, sticky="w", padx=P, pady=(4, 0)
         )
 
-        # Row 2 comboboxes
+        # Row 2 ComboBoxes
         self.combo_algo = ctk.CTkComboBox(
             card, values=["Quick Sort", "Bubble Sort", "Insertion Sort"], font=FONT_BODY, height=44, state="normal"
         )
@@ -251,7 +247,7 @@ class App(ctk.CTk):
         self.combo_algo.grid(row=2, column=0, sticky="ew", padx=P, pady=(4, 8))
         self.combo_sort_by.grid(row=2, column=1, sticky="ew", padx=P, pady=(4, 8))
 
-        # Row 3 buttons
+        # Row 3 Buttons
         btn_run = ctk.CTkButton(
             card,
             text="▶︎  Run Sort",
@@ -280,13 +276,13 @@ class App(ctk.CTk):
         btn_run.grid(row=3, column=0, sticky="ew", padx=P, pady=(12, P))
         btn_clear.grid(row=3, column=1, sticky="ew", padx=P, pady=(12, P))
 
-        # Row 4 dataset label
+        # Row 4 Dataset Label
         self.label_dataset = ctk.CTkLabel(
             card, text="Current Dataset: 0 records", font=FONT_BODY, text_color=TEXT_SECONDARY, justify="left"
         )
         self.label_dataset.grid(row=4, column=0, columnspan=2, sticky="e", padx=P, pady=(0, P))
 
-    # ---------- algorithm info card ----------
+    #  Algorithm Info 
     def _build_algo_info_card(self, parent):
         card = ctk.CTkFrame(parent, fg_color="#e5f0ff", corner_radius=16)
         card.grid(row=3, column=0, sticky="ew", pady=(P, 0))
@@ -331,7 +327,7 @@ class App(ctk.CTk):
         self.label_time.grid(row=3, column=0, sticky="w", padx=P, pady=(0, P))
         self.label_space.grid(row=3, column=1, sticky="w", padx=P, pady=(0, P))
 
-    # ---------- data sections ----------
+    #  Data Sections 
     def _build_data_sections(self, parent):
         container = ctk.CTkFrame(parent, fg_color=BG_MAIN)
         container.grid(row=4, column=0, sticky="nsew", pady=(P, P))
@@ -367,7 +363,6 @@ class App(ctk.CTk):
         self.sorted_table.grid(row=0, column=0, sticky="nsew", padx=P, pady=P)
         self.sorted_table.grid_columnconfigure(0, weight=1)
 
-        # headers + placeholder rows
         self._build_table_header(self.orig_table, with_actions=True)
         self._build_empty_placeholder_row(self.orig_table, columns=7)
 
@@ -387,7 +382,6 @@ class App(ctk.CTk):
                 row=0, column=col, padx=8, pady=8, sticky="w"
             )
 
-        # action column header
         if with_actions:
             ctk.CTkLabel(header, text="Actions", font=FONT_BODY, text_color=TEXT_PRIMARY, justify="left").grid(
                 row=0, column=6, padx=8, pady=8, sticky="e"
