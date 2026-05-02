@@ -112,7 +112,6 @@ class TableView:
         self.app._update_scrollbar_visibility(self.table)
 
     def _cell_sticky(self, col_idx):
-        # User requested all table values/headers to be left aligned.
         return "w"
 
     def _configure_columns(self, widget):
@@ -698,13 +697,14 @@ class App(ctk.CTk):
         raw_steps = int(event.delta / 120) if event.delta else 0
         steps = max(1, abs(raw_steps))
         delta = -steps if raw_steps >= 0 else steps
+        delta *= 30
         if self._active_table is not None:
             canvas = getattr(self._active_table, "_parent_canvas", None)
             if canvas is not None:
                 canvas.yview_scroll(delta, "units")
                 self._update_scrollbar_visibility(self._active_table)
                 return
-        # Fallback: scroll main page content when not hovering a table.
+
         main_canvas = getattr(self.main_scroll, "_parent_canvas", None)
         if main_canvas is not None:
             start, end = main_canvas.yview()
@@ -723,11 +723,7 @@ class App(ctk.CTk):
             canvas = getattr(self.main_scroll, "_parent_canvas", None)
             if not scrollbar or not canvas:
                 return
-            start, end = canvas.yview()
-            if start > 0.0 or end < 1.0:
-                scrollbar.grid()
-            else:
-                scrollbar.grid_remove()
+            scrollbar.grid()
         except Exception:
             pass
 
