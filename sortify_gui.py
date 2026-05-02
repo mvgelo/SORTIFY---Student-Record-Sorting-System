@@ -76,7 +76,7 @@ class TableView:
         title,
         show_actions=False,
         action_mode="archive",
-        col_weights=None,
+        col_weights=COL_WEIGHTS_NO_ACTION,
         include_actions_header=True,
         visible_rows=VISIBLE_ROWS,
     ):
@@ -84,7 +84,7 @@ class TableView:
         self.show_actions = show_actions
         self.action_mode = action_mode
         self.include_actions_header = include_actions_header
-        self.col_weights = col_weights or (COL_WEIGHTS_WITH_ACTION if show_actions else COL_WEIGHTS_NO_ACTION)
+        self.col_weights = col_weights
 
         self.table_height = ROW_HEIGHT * visible_rows + 18
 
@@ -163,9 +163,8 @@ class TableView:
         values = [sid, name, str(age), f"{float(gwa):.2f}", program, str(year)]
 
         for col, val in enumerate(values):
-            sticky = self._cell_sticky(col)
             ctk.CTkLabel(row, text=val, font=FONT_SMALL, text_color=TEXT_PRIMARY).grid(
-                row=0, column=col, sticky=sticky, padx=6, pady=6
+                row=0, column=col, sticky="w", padx=6, pady=6
             )
 
         if self.show_actions:
@@ -292,7 +291,13 @@ class App(ctk.CTk):
         database.create_table()
 
         self.title("SORTIFY")
-        self.geometry("1500x930")
+        width = int(800 * 1.2)
+        height = 600
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        x = (screen_width / 2) - (width / 2)
+        y = (screen_height / 2) - (height / 2)
+        self.geometry(f"{width}x{height}+{int(x)}+{int(y)}")
         self.configure(fg_color=BG_MAIN)
 
         self._active_table = None
