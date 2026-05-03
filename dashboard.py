@@ -64,7 +64,6 @@ class DashboardMixin:
             self, preview_wrap, title="Latest Records",
             show_actions=False,
             visible_rows=5,
-            show_scrollbar=False,
 )
 
         return page

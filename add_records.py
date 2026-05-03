@@ -57,7 +57,6 @@ class AddRecordsMixin:
         self.add_preview = TableView(
             self, preview_wrap, title="Latest Records Preview",
             show_actions=False, visible_rows=5,
-            show_scrollbar=False,
         )
         return page
 
