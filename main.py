@@ -48,7 +48,7 @@ class App(ctk.CTk,
 
         self._show_page("Dashboard")
         self._refresh_all_views(reset_sorted=True)
-        self.after(50, lambda: self.sorted_table.set_visible_rows(2))  # EMPTY_SORTED_ROWS = 2
+        self.after(50, lambda: self.sorted_table.set_visible_rows(2))
 
         self.bind_all("<MouseWheel>", self._on_mousewheel)
 

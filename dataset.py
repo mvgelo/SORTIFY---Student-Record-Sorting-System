@@ -38,7 +38,6 @@ class DatasetMixin:
         self.archived_section = ctk.CTkFrame(tables, fg_color=BG_MAIN)
         self.archived_visible = False
 
-        # Header row with title and delete button
         archive_header = ctk.CTkFrame(self.archived_section, fg_color="transparent")
         archive_header.pack(fill="x", pady=(8, 0))
         ctk.CTkLabel(archive_header, text="Archived Dataset", font=FONT_H2, text_color=TEXT_PRIMARY).pack(side="left")
@@ -53,6 +52,7 @@ class DatasetMixin:
             show_actions=True, action_mode="delete_archived",
             col_weights=COL_WEIGHTS_ARCHIVED,
             actions_align="e",
+            always_show_scrollbar=True,
         )
         self.dataset_archived_table.title_label.pack_forget()
         return page

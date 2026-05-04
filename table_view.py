@@ -19,6 +19,7 @@ class TableView:
         visible_rows=10,
         show_scrollbar=True,
         actions_align="w",
+        always_show_scrollbar=False,
     ):
         if col_weights is None:
             from constants import COL_WEIGHTS_NO_ACTION as cw
@@ -30,6 +31,7 @@ class TableView:
         self.col_weights = col_weights
         self.show_scrollbar = show_scrollbar
         self.actions_align = actions_align
+        self.always_show_scrollbar = always_show_scrollbar
 
         self.table_height = ROW_HEIGHT * visible_rows + 18
 
@@ -69,6 +71,12 @@ class TableView:
             canvas = getattr(self.table, "_parent_canvas", None)
             if not scrollbar or not canvas:
                 return
+
+            if self.always_show_scrollbar:
+                scrollbar.grid()
+                self._sync_header_padding(True)
+                return
+
             start, end = canvas.yview()
             visible = start > 0.0 or end < 1.0
             if self.show_scrollbar and visible:
