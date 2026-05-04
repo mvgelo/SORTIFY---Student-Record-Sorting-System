@@ -1,4 +1,5 @@
 import customtkinter as ctk
+import time
 from tkinter import messagebox
 from constants import (
     BG_MAIN, CARD_BG, ALGO_INFO_BG, TEXT_PRIMARY, TEXT_SECONDARY,
@@ -54,7 +55,7 @@ class SortingLabMixin:
 
         self.label_dataset = ctk.CTkLabel(controls, text="Current Dataset: 0 records",
                                           font=FONT_SMALL, text_color=TEXT_SECONDARY)
-        self.label_dataset.grid(row=3, column=0, columnspan=3, sticky="e", padx=P, pady=(0, 8))
+        self.label_dataset.grid(row=2, column=0, columnspan=3, sticky="e", padx=P, pady=(0, 8))
 
         info = ctk.CTkFrame(page, fg_color=ALGO_INFO_BG, corner_radius=10)
         info.pack(fill="x", pady=(10, 0))
@@ -75,6 +76,13 @@ class SortingLabMixin:
             show_actions=False, visible_rows=3,
         )
 
+        self.sorted_table.title_label.pack_forget()
+        title_frame = ctk.CTkFrame(tables_wrap, fg_color="transparent")
+        title_frame.pack(fill="x", before=self.sorted_table.card)
+        ctk.CTkLabel(title_frame, text="Sorted Data", font=FONT_H2, text_color=TEXT_PRIMARY).pack(side="left")
+        self.label_sort_time = ctk.CTkLabel(title_frame, text="", font=FONT_SMALL, text_color=TEXT_SECONDARY)
+        self.label_sort_time.pack(side="right")
+
         tables_wrap = ctk.CTkFrame(page, fg_color=BG_MAIN)
         tables_wrap.pack(fill="x", pady=(10, 0))
         self.original_table = TableView(
@@ -93,6 +101,7 @@ class SortingLabMixin:
             self.has_sorted_results = False
             self.sorted_table.set_visible_rows(EMPTY_SORTED_ROWS)
             self.sorted_table.render_rows([], "Run sort to see ordered results.")
+            self.label_sort_time.configure(text="")
         elif sorted_rows is not None:
             self.has_sorted_results = True
             self.sorted_table.set_visible_rows(VISIBLE_ROWS)
@@ -115,6 +124,8 @@ class SortingLabMixin:
         key_idx = SORT_KEY_BY_COLUMN[self.combo_sort_by.get()]
         algo = self.combo_algo.get()
 
+        start = time.perf_counter()
+
         if algo == "Quick Sort":
             sorted_rows = quick_sort_students(rows, key_idx)
         elif algo == "Bubble Sort":
@@ -124,7 +135,10 @@ class SortingLabMixin:
         else:
             sorted_rows = merge_sort_students(rows, key_idx)
 
+        elapsed = (time.perf_counter() - start) * 1000
+
         if self.switch_desc.get() == "on":
             sorted_rows = list(reversed(sorted_rows))
 
         self._refresh_sorting_page(rows, reset_sorted=False, sorted_rows=sorted_rows)
+        self.label_sort_time.configure(text=f"Sort completed in {elapsed:.2f} ms")

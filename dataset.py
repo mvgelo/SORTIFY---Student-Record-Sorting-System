@@ -93,8 +93,6 @@ class DatasetMixin:
     def _on_restore_archived(self, archive_rowid):
         if archive_rowid is None:
             return
-        if not messagebox.askyesno("Restore archived", "Restore this archived record to active dataset?"):
-            return
         database.restore_archived_student(archive_rowid)
         self._refresh_all_views(reset_sorted=True)
 

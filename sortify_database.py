@@ -172,3 +172,16 @@ def student_id_exists(student_id):
 
     conn.close()
     return row is not None
+
+
+def student_id_exists_anywhere(student_id):
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT 1 FROM students WHERE id = ?", (student_id,))
+    if cursor.fetchone():
+        conn.close()
+        return True
+    cursor.execute("SELECT 1 FROM archived_students WHERE id = ?", (student_id,))
+    row = cursor.fetchone()
+    conn.close()
+    return row is not None
