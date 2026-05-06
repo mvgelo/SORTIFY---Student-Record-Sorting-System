@@ -77,7 +77,10 @@ class App(ctk.CTk,
             btn.grid(row=i, column=0, sticky="ew", padx=12, pady=3)
             self.nav_buttons[name] = btn
 
-        logo_row = 7
+        spacer_row = 7
+        sidebar.grid_rowconfigure(spacer_row, weight=1)
+
+        logo_row = 8
         try:
             logo_img = CTkImage(
                 light_image=Image.open("logo.png"),
@@ -85,13 +88,13 @@ class App(ctk.CTk,
                 size=(180, 180)
             )
             self.logo_label = ctk.CTkLabel(sidebar, image=logo_img, text="")
-            self.logo_label.grid(row=logo_row, column=0, padx=20, pady=(40, 30), sticky="ew")
+            self.logo_label.grid(row=logo_row, column=0, padx=20, pady=(8, 6), sticky="ew")
         except FileNotFoundError:
             pass
 
-        btn_row = 8
+        btn_row = 9
         settings_about_frame = ctk.CTkFrame(sidebar, fg_color="transparent")
-        settings_about_frame.grid(row=btn_row, column=0, sticky="ew", padx=12, pady=(0, 10))
+        settings_about_frame.grid(row=btn_row, column=0, sticky="ew", padx=12, pady=(35, 10))
         settings_about_frame.grid_columnconfigure((0, 1), weight=1)
 
         ctk.CTkButton(
@@ -107,8 +110,6 @@ class App(ctk.CTk,
             text_color=TEXT_PRIMARY, font=FONT_SMALL,
             command=self._open_about,
         ).grid(row=0, column=1, sticky="ew", padx=(4, 0))
-
-        sidebar.grid_rowconfigure(9, weight=1)
 
     def _open_settings(self):
         popup = ctk.CTkToplevel(self)
@@ -174,7 +175,7 @@ class App(ctk.CTk,
         ctk.CTkLabel(popup, text="Student Record Sorting System",
                      font=FONT_SMALL, text_color=secondary_color).pack()
 
-        ctk.CTkLabel(popup, text="Creators:", font=FONT_BODY,
+        ctk.CTkLabel(popup, text="Creators:", font=FONT_SMALL,
                      text_color=text_color).pack(pady=(20, 5))
 
         ctk.CTkLabel(popup, text="Mark Angelo Vergara", font=FONT_SMALL,
