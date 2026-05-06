@@ -57,9 +57,6 @@ class TableView:
         self._force_inner_width()
         self.app._bind_table_hover_scroll(self.table)
 
-    # ------------------------------------------------------------------
-    #  Scrollable check (used by app's mouse wheel handler)
-    # ------------------------------------------------------------------
     def is_scrollable(self):
         if not self.show_scrollbar:
             return False
@@ -73,9 +70,6 @@ class TableView:
             pass
         return False
 
-    # ------------------------------------------------------------------
-    #  Inner width fix (keeps content filling the canvas)
-    # ------------------------------------------------------------------
     def _force_inner_width(self):
         def set_width():
             try:
@@ -87,9 +81,6 @@ class TableView:
                 pass
         self.app.after(10, set_width)
 
-    # ------------------------------------------------------------------
-    #  Scrollbar visibility & header alignment
-    # ------------------------------------------------------------------
     def _update_scrollbar_visibility(self):
         try:
             self.app.update_idletasks()
@@ -127,9 +118,6 @@ class TableView:
         self.app.after(15, self._update_scrollbar_visibility)
         self.app.after(50, self._force_inner_width)
 
-    # ------------------------------------------------------------------
-    #  Header drawing
-    # ------------------------------------------------------------------
     def _draw_header(self):
         for w in self.header.winfo_children():
             w.destroy()
@@ -151,9 +139,6 @@ class TableView:
         self._scrollbar_spacer = ctk.CTkFrame(self.header, width=0, height=1, fg_color="transparent")
         self._scrollbar_spacer.grid(row=0, column=99, sticky="ns")
 
-    # ------------------------------------------------------------------
-    #  Public helpers
-    # ------------------------------------------------------------------
     def set_visible_rows(self, visible_rows):
         self.table_height = ROW_HEIGHT * visible_rows + 18
         self.table.configure(height=self.table_height)
@@ -162,9 +147,6 @@ class TableView:
     def set_title(self, text):
         self.title_label.configure(text=text)
 
-    # ------------------------------------------------------------------
-    #  Internal column logic
-    # ------------------------------------------------------------------
     def _cell_sticky(self, col_idx):
         if col_idx == 6 and self.show_actions:
             return self.actions_align
@@ -175,9 +157,6 @@ class TableView:
             widget.columnconfigure(i, weight=weight, uniform="table_cols")
         widget.columnconfigure(len(self.col_weights), weight=0)
 
-    # ------------------------------------------------------------------
-    #  Clearing & rendering
-    # ------------------------------------------------------------------
     def _clear(self):
         for w in self.table.winfo_children():
             w.destroy()
