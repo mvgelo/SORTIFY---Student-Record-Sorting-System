@@ -1,4 +1,6 @@
 import customtkinter as ctk
+from PIL import Image
+from customtkinter import CTkImage
 from constants import (
     BG_MAIN, BG_SIDEBAR, TEXT_PRIMARY, TEXT_SECONDARY,
     FONT_SMALL, BTN_H, P,
@@ -11,6 +13,7 @@ from add_records import AddRecordsMixin
 from sorting_lab import SortingLabMixin
 from algorithm_comparison import AlgorithmComparisonMixin
 from dataset import DatasetMixin
+
 
 class App(ctk.CTk,
           DashboardMixin,
@@ -56,6 +59,7 @@ class App(ctk.CTk,
         sidebar = ctk.CTkFrame(self, fg_color=BG_SIDEBAR, corner_radius=0, width=230)
         sidebar.grid(row=0, column=0, sticky="ns")
         sidebar.grid_propagate(False)
+        sidebar.grid_columnconfigure(0, weight=1)
 
         ctk.CTkLabel(sidebar, text="SORTIFY", font=("Segoe UI Variable", 30, "bold"),
                      text_color=TEXT_PRIMARY).grid(row=0, column=0, padx=20, pady=(18, 0), sticky="w")
@@ -73,11 +77,120 @@ class App(ctk.CTk,
             btn.grid(row=i, column=0, sticky="ew", padx=12, pady=3)
             self.nav_buttons[name] = btn
 
-        self.dark_mode_var = ctk.StringVar(value="off")
+        logo_row = 7
+        try:
+            logo_img = CTkImage(
+                light_image=Image.open("logo.png"),
+                dark_image=Image.open("logo.png"),
+                size=(180, 180)
+            )
+            self.logo_label = ctk.CTkLabel(sidebar, image=logo_img, text="")
+            self.logo_label.grid(row=logo_row, column=0, padx=20, pady=(40, 30), sticky="ew")
+        except FileNotFoundError:
+            pass
+
+        btn_row = 8
+        settings_about_frame = ctk.CTkFrame(sidebar, fg_color="transparent")
+        settings_about_frame.grid(row=btn_row, column=0, sticky="ew", padx=12, pady=(0, 10))
+        settings_about_frame.grid_columnconfigure((0, 1), weight=1)
+
+        ctk.CTkButton(
+            settings_about_frame, text="Settings", height=BTN_H,
+            fg_color="transparent", hover_color=NEUTRAL_HOVER,
+            text_color=TEXT_PRIMARY, font=FONT_SMALL,
+            command=self._open_settings,
+        ).grid(row=0, column=0, sticky="ew", padx=(0, 4))
+
+        ctk.CTkButton(
+            settings_about_frame, text="About", height=BTN_H,
+            fg_color="transparent", hover_color=NEUTRAL_HOVER,
+            text_color=TEXT_PRIMARY, font=FONT_SMALL,
+            command=self._open_about,
+        ).grid(row=0, column=1, sticky="ew", padx=(4, 0))
+
+        sidebar.grid_rowconfigure(9, weight=1)
+
+    def _open_settings(self):
+        popup = ctk.CTkToplevel(self)
+        popup.title("Settings")
+        popup.geometry("320x180")
+        popup.resizable(False, False)
+        popup.attributes('-topmost', True)
+        popup.grab_set()
+
+        ctk.CTkLabel(popup, text="Settings", font=("Segoe UI Variable", 18, "bold"),
+                     text_color=TEXT_PRIMARY).pack(pady=(15, 10))
+
+        current_mode = ctk.get_appearance_mode()
+        dark_var = ctk.StringVar(value="on" if current_mode == "dark" else "off")
+
+        def apply_dark_mode():
+            mode = "dark" if dark_var.get() == "on" else "light"
+            ctk.set_appearance_mode(mode)
+            self._refresh_all_views(reset_sorted=not self.has_sorted_results)
+
         ctk.CTkSwitch(
-            sidebar, text="Dark Mode", variable=self.dark_mode_var,
-            onvalue="on", offvalue="off", command=self._toggle_dark_mode,
-        ).grid(row=len(names) + 3, column=0, sticky="w", padx=14, pady=(10, 0))
+            popup, text="Dark Mode", variable=dark_var,
+            onvalue="on", offvalue="off", command=apply_dark_mode,
+        ).pack(pady=5)
+
+        ctk.CTkButton(
+            popup, text="Close", height=32, width=80,
+            fg_color=NEUTRAL_HOVER, text_color=TEXT_PRIMARY,
+            command=popup.destroy,
+        ).pack(pady=(15, 10))
+
+    def _open_about(self):
+        popup = ctk.CTkToplevel(self)
+        popup.title("About SORTIFY")
+        popup.geometry("340x420")
+        popup.resizable(False, False)
+        popup.attributes('-topmost', True)
+        popup.grab_set()
+
+        if ctk.get_appearance_mode() == "dark":
+            bg_color = "#111827"
+            text_color = "#e5e7eb"
+            secondary_color = "#9ca3af"
+        else:
+            bg_color = "#ffffff"
+            text_color = "#1e293b"
+            secondary_color = "#64748b"
+
+        popup.configure(fg_color=bg_color)
+
+        try:
+            logo_img = CTkImage(
+                light_image=Image.open("logo.png"),
+                dark_image=Image.open("logo.png"),
+                size=(100, 100)
+            )
+            ctk.CTkLabel(popup, image=logo_img, text="").pack(pady=(20, 5))
+        except FileNotFoundError:
+            pass
+
+        ctk.CTkLabel(popup, text="SORTIFY", font=("Segoe UI Variable", 20, "bold"),
+                     text_color=text_color).pack(pady=(0, 2))
+        ctk.CTkLabel(popup, text="Student Record Sorting System",
+                     font=FONT_SMALL, text_color=secondary_color).pack()
+
+        ctk.CTkLabel(popup, text="Creators:", font=FONT_BODY,
+                     text_color=text_color).pack(pady=(20, 5))
+
+        ctk.CTkLabel(popup, text="Mark Angelo Vergara", font=FONT_SMALL,
+                     text_color=text_color).pack()
+        ctk.CTkLabel(popup, text="John Rayson Yatco", font=FONT_SMALL,
+                     text_color=text_color).pack()
+        ctk.CTkLabel(popup, text="Althea Palentinos", font=FONT_SMALL,
+                     text_color=text_color).pack()
+        ctk.CTkLabel(popup, text="Mark Asistido", font=FONT_SMALL,
+                     text_color=text_color).pack()
+
+        ctk.CTkButton(
+            popup, text="Close", height=32, width=80,
+            fg_color=NEUTRAL_HOVER, text_color=text_color,
+            command=popup.destroy,
+        ).pack(pady=(20, 15))
 
     def _build_main_area(self):
         self.main_scroll = ctk.CTkScrollableFrame(self, fg_color=BG_MAIN)
@@ -129,22 +242,18 @@ class App(ctk.CTk,
         delta = -steps if raw_steps >= 0 else steps
         delta *= 30
         if self._active_table is not None:
-            canvas = getattr(self._active_table, "_parent_canvas", None)
-            if canvas is not None:
-                canvas.yview_scroll(delta, "units")
-                self._update_scrollbar_visibility(self._active_table)
-                return
+            if self._active_table.is_scrollable():
+                canvas = getattr(self._active_table, "_parent_canvas", None)
+                if canvas is not None:
+                    canvas.yview_scroll(delta, "units")
+                    self._active_table._update_scrollbar_visibility()
+                    return
 
         main_canvas = getattr(self.main_scroll, "_parent_canvas", None)
         if main_canvas is not None:
             start, end = main_canvas.yview()
             if start > 0.0 or end < 1.0:
                 main_canvas.yview_scroll(delta, "units")
-
-    def _toggle_dark_mode(self):
-        mode = "dark" if self.dark_mode_var.get() == "on" else "light"
-        ctk.set_appearance_mode(mode)
-        self._refresh_all_views(reset_sorted=not self.has_sorted_results)
 
     def _update_main_scrollbar_visibility(self):
         try:
@@ -158,19 +267,7 @@ class App(ctk.CTk,
             pass
 
     def _update_scrollbar_visibility(self, table):
-        try:
-            self.update_idletasks()
-            scrollbar = getattr(table, "_scrollbar", None)
-            canvas = getattr(table, "_parent_canvas", None)
-            if not scrollbar or not canvas:
-                return
-            start, end = canvas.yview()
-            if start > 0.0 or end < 1.0:
-                scrollbar.grid()
-            else:
-                scrollbar.grid_remove()
-        except Exception:
-            pass
+        pass
 
     def _refresh_all_views(self, reset_sorted=False, sorted_rows=None):
         active_rows = database.get_all_students()
