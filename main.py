@@ -1,3 +1,4 @@
+import sys
 import customtkinter as ctk
 from PIL import Image
 from customtkinter import CTkImage
@@ -114,10 +115,12 @@ class App(ctk.CTk,
     def _open_settings(self):
         popup = ctk.CTkToplevel(self)
         popup.title("Settings")
-        popup.geometry("320x180")
+        popup.geometry("340x360")
         popup.resizable(False, False)
         popup.attributes('-topmost', True)
         popup.grab_set()
+
+        popup.configure(fg_color=BG_SIDEBAR)
 
         ctk.CTkLabel(popup, text="Settings", font=("Segoe UI Variable", 18, "bold"),
                      text_color=TEXT_PRIMARY).pack(pady=(15, 10))
@@ -134,6 +137,20 @@ class App(ctk.CTk,
             popup, text="Dark Mode", variable=dark_var,
             onvalue="on", offvalue="off", command=apply_dark_mode,
         ).pack(pady=5)
+
+        ctk.CTkLabel(popup, text="", font=("Segoe UI Variable", 2)).pack()
+        ctk.CTkLabel(popup, text="About SORTIFY", font=("Segoe UI Variable", 13, "bold"),
+                     text_color=TEXT_SECONDARY).pack(pady=(15, 5))
+
+        info_lines = [
+            f"Application: SORTIFY v1.0",
+            f"Language: Python {sys.version_info.major}.{sys.version_info.minor}",
+            "GUI: CustomTkinter (Tkinter)",
+            "Database: SQLite",
+        ]
+        for line in info_lines:
+            ctk.CTkLabel(popup, text=line, font=FONT_SMALL,
+                         text_color=TEXT_PRIMARY, anchor="w", justify="left").pack(padx=20, pady=1)
 
         ctk.CTkButton(
             popup, text="Close", height=32, width=80,
@@ -162,21 +179,21 @@ class App(ctk.CTk,
             pass
 
         ctk.CTkLabel(popup, text="SORTIFY", font=("Segoe UI Variable", 20, "bold"),
-                    text_color=TEXT_PRIMARY).pack(pady=(0, 2))
+                     text_color=TEXT_PRIMARY).pack(pady=(0, 2))
         ctk.CTkLabel(popup, text="Student Record Sorting System",
-                    font=FONT_SMALL, text_color=TEXT_SECONDARY).pack()
+                     font=FONT_SMALL, text_color=TEXT_SECONDARY).pack()
 
-        ctk.CTkLabel(popup, text="Creators:", font=FONT_SMALL,
-                    text_color=TEXT_PRIMARY).pack(pady=(20, 5))
+        ctk.CTkLabel(popup, text="Developers:", font=FONT_SMALL,
+                     text_color=TEXT_PRIMARY).pack(pady=(20, 5))
 
         ctk.CTkLabel(popup, text="Mark Angelo Vergara", font=FONT_SMALL,
-                    text_color=TEXT_PRIMARY).pack()
+                     text_color=TEXT_PRIMARY).pack()
         ctk.CTkLabel(popup, text="John Rayson Yatco", font=FONT_SMALL,
-                    text_color=TEXT_PRIMARY).pack()
+                     text_color=TEXT_PRIMARY).pack()
         ctk.CTkLabel(popup, text="Althea Palentinos", font=FONT_SMALL,
-                    text_color=TEXT_PRIMARY).pack()
+                     text_color=TEXT_PRIMARY).pack()
         ctk.CTkLabel(popup, text="Mark Asistido", font=FONT_SMALL,
-                    text_color=TEXT_PRIMARY).pack()
+                     text_color=TEXT_PRIMARY).pack()
 
         ctk.CTkButton(
             popup, text="Close", height=32, width=80,
