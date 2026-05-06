@@ -92,7 +92,7 @@ class DashboardMixin:
             row = ctk.CTkFrame(self.program_chart_frame, fg_color="transparent")
             row.pack(fill="x", pady=2)
             ctk.CTkLabel(row, text=f"{name} ({v})", width=130, anchor="w", font=FONT_SMALL).pack(side="left")
-            bar = ctk.CTkProgressBar(row)
+            bar = ctk.CTkProgressBar(row, progress_color=PRIMARY_BTN)
             bar.pack(side="left", fill="x", expand=True, padx=(8, 0))
             bar.set(v / max_v if max_v else 0)
 
@@ -119,7 +119,7 @@ class DashboardMixin:
             row = ctk.CTkFrame(self.age_chart_frame, fg_color="transparent")
             row.pack(fill="x", pady=2)
             ctk.CTkLabel(row, text=f"{k}-{k+1}", width=70, anchor="w", font=FONT_SMALL).pack(side="left")
-            bar = ctk.CTkProgressBar(row, progress_color="#93c5fd")
+            bar = ctk.CTkProgressBar(row, progress_color=PRIMARY_BTN)
             bar.pack(side="left", fill="x", expand=True, padx=(8, 0))
             bar.set(v / max_v if max_v else 0)
 

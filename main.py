@@ -84,7 +84,7 @@ class App(ctk.CTk,
         try:
             logo_img = CTkImage(
                 light_image=Image.open("logo.png"),
-                dark_image=Image.open("logo.png"),
+                dark_image=Image.open("logo_dark.png"),
                 size=(180, 180)
             )
             self.logo_label = ctk.CTkLabel(sidebar, image=logo_img, text="")
@@ -149,21 +149,12 @@ class App(ctk.CTk,
         popup.attributes('-topmost', True)
         popup.grab_set()
 
-        if ctk.get_appearance_mode() == "dark":
-            bg_color = "#111827"
-            text_color = "#e5e7eb"
-            secondary_color = "#9ca3af"
-        else:
-            bg_color = "#ffffff"
-            text_color = "#1e293b"
-            secondary_color = "#64748b"
-
-        popup.configure(fg_color=bg_color)
+        popup.configure(fg_color=BG_SIDEBAR)
 
         try:
             logo_img = CTkImage(
                 light_image=Image.open("logo.png"),
-                dark_image=Image.open("logo.png"),
+                dark_image=Image.open("logo_dark.png"),
                 size=(100, 100)
             )
             ctk.CTkLabel(popup, image=logo_img, text="").pack(pady=(20, 5))
@@ -171,25 +162,25 @@ class App(ctk.CTk,
             pass
 
         ctk.CTkLabel(popup, text="SORTIFY", font=("Segoe UI Variable", 20, "bold"),
-                     text_color=text_color).pack(pady=(0, 2))
+                    text_color=TEXT_PRIMARY).pack(pady=(0, 2))
         ctk.CTkLabel(popup, text="Student Record Sorting System",
-                     font=FONT_SMALL, text_color=secondary_color).pack()
+                    font=FONT_SMALL, text_color=TEXT_SECONDARY).pack()
 
         ctk.CTkLabel(popup, text="Creators:", font=FONT_SMALL,
-                     text_color=text_color).pack(pady=(20, 5))
+                    text_color=TEXT_PRIMARY).pack(pady=(20, 5))
 
         ctk.CTkLabel(popup, text="Mark Angelo Vergara", font=FONT_SMALL,
-                     text_color=text_color).pack()
+                    text_color=TEXT_PRIMARY).pack()
         ctk.CTkLabel(popup, text="John Rayson Yatco", font=FONT_SMALL,
-                     text_color=text_color).pack()
+                    text_color=TEXT_PRIMARY).pack()
         ctk.CTkLabel(popup, text="Althea Palentinos", font=FONT_SMALL,
-                     text_color=text_color).pack()
+                    text_color=TEXT_PRIMARY).pack()
         ctk.CTkLabel(popup, text="Mark Asistido", font=FONT_SMALL,
-                     text_color=text_color).pack()
+                    text_color=TEXT_PRIMARY).pack()
 
         ctk.CTkButton(
             popup, text="Close", height=32, width=80,
-            fg_color=NEUTRAL_HOVER, text_color=text_color,
+            fg_color=NEUTRAL_HOVER, text_color=TEXT_PRIMARY,
             command=popup.destroy,
         ).pack(pady=(20, 15))
 
